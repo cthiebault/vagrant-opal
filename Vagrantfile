@@ -3,8 +3,8 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "ubuntu-12.04-64-puppet"
-  config.vm.box_url = "https://vagrantcloud.com/puppetlabs/boxes/ubuntu-12.04-64-puppet/versions/1/providers/virtualbox.box"
+  config.vm.box = "ubuntu-14.04-64-puppet"
+  config.vm.box_url = "https://vagrantcloud.com/puppetlabs/boxes/ubuntu-14.04-64-puppet/versions/1/providers/virtualbox.box"
 
   # config.vm.provider :virtualbox do |vb|
   #   vb.customize ["modifyvm", :id, "--ioapic", "on"]
@@ -21,16 +21,16 @@ Vagrant.configure("2") do |config|
 
   # need to install vagrant-proxyconf:
   # vagrant plugin install vagrant-proxyconf
-  config.proxy.http     = "http://localhost:3128"
-  config.proxy.https    = "http://localhost:3128"
-  config.proxy.no_proxy = "localhost,127.0.0.1"
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http     = "http://localhost:3128"
+    config.proxy.https    = "http://localhost:3128"
+    config.proxy.no_proxy = "localhost,127.0.0.1"
+  end
 
   # Use puppet provisionner to configure everything else
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "manifests"
     puppet.module_path = "modules"
-    puppet.manifest_file  = "vagrant-opal.pp"
-    puppet.options = "-v"
+    puppet.options = "-v -d"
     puppet.facter = { "vagrant_box" => true }
   end
 

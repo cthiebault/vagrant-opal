@@ -1,0 +1,8 @@
+.vagrant/
+modules/
+*.yaml!
+.com_puppetlabs_geppetto_pptp_target
+.metadata
+*.log
+.idea/
+*.iml
